@@ -1,11 +1,11 @@
 package com.lcwd.services.impl;
 
+import com.lcwd.constant.ApplicationConstant;
 import com.lcwd.entity.User;
 import com.lcwd.exception.ResourceNotFoundException;
 import com.lcwd.repositories.UserRepository;
 import com.lcwd.services.UserService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(String userId) {
         return userRepository.findById(userId).orElseThrow(()
-                -> new ResourceNotFoundException("User not found with id: " + userId));
+                -> new ResourceNotFoundException(ApplicationConstant.USER_NOT_FOUND + userId));
     }
 
     @Override
     public User updateUser(String userId, User user) {
         User existingUser = userRepository.findById(userId).orElseThrow(()
-                -> new ResourceNotFoundException("User not found with id: " + userId));
+                -> new ResourceNotFoundException(ApplicationConstant.USER_NOT_FOUND + userId));
         existingUser.setName(user.getName());
         existingUser.setEmail(user.getEmail());
         existingUser.setAbout(user.getAbout());
@@ -52,7 +52,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        userRepository.deleteById(userId);
+
+        User existingUser = userRepository.findById(userId).orElseThrow(()
+                -> new ResourceNotFoundException(ApplicationConstant.USER_NOT_FOUND + userId));
+        userRepository.delete(existingUser);
 
     }
 }
