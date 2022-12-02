@@ -1,9 +1,11 @@
 package com.lcwd.exception;
 
+import com.lcwd.constant.ApplicationConstant;
+
 public class ResourceNotFoundException  extends RuntimeException{
 
     public ResourceNotFoundException() {
-        super("Resource not found");
+        super(ApplicationConstant.RESOURCE_NOT_FOUND);
 
     }
 
